@@ -1,0 +1,26 @@
+body {
+    background-color: #f0f0f0; /* Light gray background outside the container */
+}
+
+/* Center the text within the h4 element and remove default margin */
+h4 {
+    text-align: center;
+    margin: 20px 0;
+    color: #333;
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+  }
+/* Set the color of the text to gray and reduce the font size */
+p {
+    text-align: center;
+    color: gray;
+    font-size: 14px;
+}
+
+.text-center a {
+    font-size: 13px; /* Set the desired font size */
+    /* Add any other styles you want for the link */
+}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <!-- ... Header Section ... -->
+  <br>
+  <div class="text-center mb-4">
+    <img src="{% static 'users/images/openhire_logo_bg.png' %}" alt="OpenHire Logo" height=70 width=250>
+  </div>
+  <!-- ... Listing Section ... -->
+  <div class="col-md-4 offset-md-4 container-fluid card">
+    <h4>Registrarse</h4>
+    <p>Crea tu cuenta. Es gratis y solo tomará un tiempo<br></p>
+      <form method="POST" action="">
+        {% csrf_token %}
+        <fieldset>
+          <div style="display: flex; flex-direction: column;">
+              <label for="{{ form.email.id_for_label }}" style="margin-right: 10px; text-align: left;">Correo electrónico:</label>
+              {{ form.email }}
+              <span style="color: #ff0000; font-size: 0.8em; margin-top: 5px;">
+                <ul style="list-style-type: none; padding: 0; margin: 0;">
+                    {{ form.email.errors }}
+                </ul>
+              </span>
+          </div>
+          <br>
+          <div style="display: flex; flex-direction: column;">
+              <label for="{{ form.password1.id_for_label }}" style="margin-right: 10px; text-align: left;">Contraseña:</label>
+              {{ form.password1 }}
+              <span style="color: #ff0000; font-size: 0.8em; margin-top: 5px;">
+                <ul style="list-style-type: none; padding: 0; margin: 0;">
+                    {{ form.password1.errors }}
+                </ul>
+              </span>
+          </div>
+          <br>
+          <div style="display: flex; flex-direction: column;">
+            <label for="{{ form.password2.id_for_label }}" style="margin-right: 10px; text-align: left;">Confirma la Contraseña:</label>
+            {{ form.password2 }}
+            <span style="color: #ff0000; font-size: 0.8em; margin-top: 5px;">
+              <ul style="list-style-type: none; padding: 0; margin: 0;">
+                  {{ form.password2.errors }}
+              </ul>
+            </span>
+          </div>
+          <br>
+
+          <div style="display: flex; flex-direction: column;">
+            <label for="account_type" style="margin-right: 10px; text-align: left;">Selecciona Tipo de Cuenta:</label>
+            <select class="form-select" aria-label="Default select example" name="account_type" id="account_type" required>
+              <option selected disabled hidden>Selecciona Tipo de Cuenta</option>
+              <option value="Candidato">Candidato</option>
+              <option value="Empleador">Empleador</option>
+            </select>
+            <span style="color: #ff0000; font-size: 0.8em; margin-top: 5px;">
+              {% if not request.POST.account_type %}
+                *Este campo es obligatorio. Por favor, selecciona un tipo de cuenta.
+              {% endif %}
+            </span>
+          </div>
+
+          <br>
+          <div class="d-grid gap-2">
+            <button class="btn btn-primary" type="submit"><strong>Registrarse</strong></button>
+          </div>
+        <br>
+      </form>
+  </div>
+  <!-- ... Footer Section ... -->
+  <div class="text-center">
+    <a class="text-center" href="#">¿Ya tienes una cuenta? Inicia Sesión</a>
+  </div>
+{% endblock  %}
