@@ -34,3 +34,34 @@ def register_user(request):
             return render(request, "register.html", {'form': form})
 
     return render(request, "register.html", {'form': form})
+
+def login_user(request):
+    if request.user.is_authenticated:
+        logout(request)
+
+    if request.method == "POST":
+        username = request.POST['email']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+
+            if user.is_employer == True:
+                return redirect('http://127.0.0.1:8000/admin/')
+            else:
+                return redirect('http://127.0.0.1:8000/admin/')
+        else:
+            return redirect('login')
+
+    return render(request, "login.html", {})
+
+
+def logout_user(request):
+    user = request.user
+    logout(request)
+    
+    if user.is_employer == True:
+        return redirect('http://127.0.0.1:8000/admin/')
+    else:
+        return redirect('http://127.0.0.1:8000/admin/')

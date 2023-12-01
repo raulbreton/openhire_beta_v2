@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <!-- ... Header Section ... -->
+    <div class="text-center mb-4" style="margin-top: 150px;">
+        <img src="{% static 'users/images/openhire_logo_bg.png' %}" alt="OpenHire Logo" height=70 width=250>
+    </div>
+
+    <div class="col-md-4 offset-md-4 container-fluid card">
+    <h4>Iniciar Sesión</h4>
+
+        <!-- ... Listing Section ... -->
+        <form method="POST" action="" style="margin-top: 20px;">
+            {% csrf_token %}
+            <fieldset>
+
+                <!-- ... form elements ... -->
+                <div class="form-group mb-3">
+                    <input type="text" class="form-control" name="email" placeholder="Correo Electrónico">
+                </div>
+
+                <div class="form-group mb-3">
+                    <div class="input-group">
+                        <input type="password" class="form-control" name="password" id="passwordInput" placeholder="Contraseña">
+                        <button type="button" class="btn btn-outline-secondary" id="showPasswordBtn" onclick="togglePassword()">Mostrar</button>
+                    </div>
+                </div>
+
+                <script>
+                    function togglePassword() {
+                        var passwordInput = document.getElementById("passwordInput");
+                        var showPasswordBtn = document.getElementById("showPasswordBtn");
+
+                        if (passwordInput.type === "password") {
+                            passwordInput.type = "text";
+                            showPasswordBtn.textContent = "Ocultar";
+                        } else {
+                            passwordInput.type = "password";
+                            showPasswordBtn.textContent = "Mostrar";
+                        }
+                    }
+                </script>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 text-md-start">
+                            <span style="color: #929292; text-decoration: none; font-size: 13px;">¿No tienes una cuenta?</span>
+                            <a class="text-center" href="#">
+                                <span style="color: inherit; text-decoration: inherit; font-size: 13px;"> Regístrate </span>
+                            </a>
+                        </div>
+
+                        <div class="col-md-6 text-md-end">
+                            <div class="form-group mb-3">
+                                <button class="btn btn-primary" type="submit"><strong>Continuar</strong></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </fieldset>
+        </form>
+    </div>
+
+{% endblock  %}
