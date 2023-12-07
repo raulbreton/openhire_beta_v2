@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import SignUpForm, LoginForm
 from employers.models import EmployerProfile
 
 def register_user(request):
@@ -40,28 +40,52 @@ def login_user(request):
         logout(request)
 
     if request.method == "POST":
+        form = LoginForm(request.POST)
         username = request.POST['email']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
 
-        if user is not None:
-            login(request, user)
-
-            if user.is_employer == True:
-                return redirect('http://127.0.0.1:8000/admin/')
-            else:
-                return redirect('http://127.0.0.1:8000/admin/')
+        if not user.objects.filter(username=username).exists():
+            form.add_error('email', "Direccion incorrecta. Porfavor intenta de nuevo.")
+        elif not user.objects.filter(password=password).exists():
+            form.add_error(None, "Contraseña incorrecta. Porfavor intenta de nuevo.")
         else:
-            return redirect('login')
+            form.add_error(None, "Correo y/o Contraseña invalido. Porfavor intenta de nuevo.")
+
+        login(request, user)
+
+        if user.is_employer == True:
+            return redirect('http://127.0.0.1:8000/admin/')
+        else:
+            return redirect('http://127.0.0.1:8000/admin/')
 
     return render(request, "login.html", {})
 
+def login_user(request):
+    if request.user.is_authenticated:
+        logout(request)
 
-def logout_user(request):
-    user = request.user
-    logout(request)
-    
-    if user.is_employer == True:
-        return redirect('http://127.0.0.1:8000/admin/')
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+            username = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+
+            if user:
+                login(request, user)
+
+                if user.is_employer:
+                    return redirect('http://127.0.0.1:8000/admin/')
+                
+                else:
+                    return redirect('http://127.0.0.1:8000/admin/')
+            else:
+                form.add_error("email", "Credenciales invalidas")
+                form.add_error("password", "Credenciales invalidas")
+                return render(request, "login.html", {'form': form})
     else:
-        return redirect('http://127.0.0.1:8000/admin/')
+        form = LoginForm()
+        
+    return render(request, "login.html", {'form': form})

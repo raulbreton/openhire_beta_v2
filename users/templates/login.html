@@ -16,12 +16,31 @@
 
                 <!-- ... form elements ... -->
                 <div class="form-group mb-3">
-                    <input type="text" class="form-control" name="email" placeholder="Correo Electrónico">
+                    {% if form.email.errors %}
+                        <div class="error-message">
+                            {% for error in form.email.errors %}
+                                <p style="color: red !important; font-size: 13px !important;">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <input type="text" class="form-control {% if form.email.errors %}is-invalid{% endif %}" id="{{ form.email.id_for_label }}" name="{{ form.email.name }}" placeholder="Ingrese su correo electrónico">
+                    {% if form.email.help_text %}
+                        <small class="form-text text-muted">{{ form.email.help_text }}</small>
+                    {% endif %}
+                    {{ form.non_field_errors }}
                 </div>
 
+
                 <div class="form-group mb-3">
+                    {% if form.password.errors %}
+                        <div class="error-message">
+                            {% for error in form.password.errors %}
+                                <p style="color: red !important;"></p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                     <div class="input-group">
-                        <input type="password" class="form-control" name="password" id="passwordInput" placeholder="Contraseña">
+                        <input type="password" class="form-control {% if form.password.errors %}is-invalid{% endif %}" name="password" id="passwordInput" placeholder="Contraseña">
                         <button type="button" class="btn btn-outline-secondary" id="showPasswordBtn" onclick="togglePassword()">Mostrar</button>
                     </div>
                 </div>
@@ -41,7 +60,7 @@
                     }
                 </script>
 
-                <div class="container">
+                <div class="container mb-3">
                     <div class="row">
                         <div class="col-md-6 text-md-start">
                             <span style="color: #929292; text-decoration: none; font-size: 13px;">¿No tienes una cuenta?</span>

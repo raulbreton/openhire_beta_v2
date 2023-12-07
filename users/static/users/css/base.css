@@ -24,3 +24,9 @@ p {
     font-size: 13px; /* Set the desired font size */
     /* Add any other styles you want for the link */
 }
+
+.error-message {
+    color: #d9534f; /* Bootstrap's danger color */
+    font-size: 13px;
+    margin-top: 5px;
+}
